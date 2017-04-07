@@ -1,0 +1,16 @@
+logging:
+  level: INFO
+  loggers:
+    SoftServe: DEBUG
+server:
+  applicationConnectors:
+  - type: http
+    port: 9000
+  adminConnectors:
+  - type: http
+    port: 9001
+database:
+  driverClass: org.postgresql.Driver
+  url: jdbc:postgresql://10.128.130.140:5432/phonebook
+  user: postgres
+  password: pjotr2005
