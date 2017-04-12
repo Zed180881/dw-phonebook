@@ -22,6 +22,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codahale.metrics.annotation.ExceptionMetered;
+import com.codahale.metrics.annotation.Metered;
+import com.codahale.metrics.annotation.Timed;
 import com.softserveinc.phonebook.api.Contact;
 import com.softserveinc.phonebook.service.ContactService;
 
@@ -29,6 +32,9 @@ import com.softserveinc.phonebook.service.ContactService;
 @Path("/contact")
 @Produces(MediaType.APPLICATION_JSON)
 @Service
+@Timed(name = "contactTimer")
+@Metered(name = "contactMeter")
+@ExceptionMetered(name = "contactExceptionMeter")
 public class ContactResource {
 
     @Autowired

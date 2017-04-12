@@ -11,6 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import com.softserveinc.phonebook.api.User;
 import com.softserveinc.phonebook.config.ApplicationContextProvider;
 import com.softserveinc.phonebook.config.SpringConfiguration;
+import com.softserveinc.phonebook.health.DataSourceConnectionHealthCheck;
 import com.softserveinc.phonebook.resources.ContactResource;
 import com.softserveinc.phonebook.resources.UserResource;
 import com.softserveinc.phonebook.security.PhoneBookAuthenticator;
@@ -52,7 +53,10 @@ public class PhoneBookApplication extends Application<PhoneBookConfiguration> {
         ApplicationContext context = getApplicationContext(configuration, environment);
         ApplicationContextProvider.setApplicationContext(context);
 
-        // Add the resource to the environment
+        // Add the health checks to the environment
+        environment.healthChecks().register("database", context.getBean(DataSourceConnectionHealthCheck.class));
+
+        // Add the resources to the environment
         environment.jersey().register(context.getBean(ContactResource.class));
         environment.jersey().register(context.getBean(UserResource.class));
 
