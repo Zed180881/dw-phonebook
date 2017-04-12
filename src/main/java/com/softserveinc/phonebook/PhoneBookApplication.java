@@ -17,6 +17,7 @@ import com.softserveinc.phonebook.security.PhoneBookAuthenticator;
 import com.softserveinc.phonebook.security.PhoneBookAuthorizer;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.DataSourceFactory;
@@ -39,6 +40,7 @@ public class PhoneBookApplication extends Application<PhoneBookConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<PhoneBookConfiguration> bootstrap) {
+        bootstrap.addBundle(new AssetsBundle("/apidocs", "/apidocs", "index.html"));
     }
 
     @Override

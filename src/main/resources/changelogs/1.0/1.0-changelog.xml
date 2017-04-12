@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+	<changeSet id="db-contacts-init" author="pzel">
+		<sqlFile path="contacts-init.sql" relativeToChangelogFile="true" />
+	</changeSet>
+	<changeSet id="db-users-init" author="pzel">
+		<sqlFile path="users-init.sql" relativeToChangelogFile="true" />
+	</changeSet>
+	<!-- delete before production -->
+	<changeSet id="test-user-insert" author="pzel">
+		<sqlFile path="db-users-insert-test-users.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	<changeSet id="test-contact-insert" author="pzel">
+		<sqlFile path="db-contacts-insert-test-contacts.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	<!-- delete before production -->
+</databaseChangeLog>
