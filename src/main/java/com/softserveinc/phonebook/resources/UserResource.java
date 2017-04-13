@@ -21,6 +21,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codahale.metrics.annotation.ExceptionMetered;
+import com.codahale.metrics.annotation.Metered;
+import com.codahale.metrics.annotation.Timed;
 import com.softserveinc.phonebook.api.User;
 import com.softserveinc.phonebook.service.UserService;
 
@@ -28,6 +31,9 @@ import com.softserveinc.phonebook.service.UserService;
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
 @Service
+@Timed(name = "userTimer")
+@Metered(name = "userMeter")
+@ExceptionMetered(name = "userExceptionMeter")
 public class UserResource {
 
     @Autowired

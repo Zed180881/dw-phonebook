@@ -12,6 +12,8 @@ import com.softserveinc.phonebook.api.User;
 import com.softserveinc.phonebook.config.ApplicationContextProvider;
 import com.softserveinc.phonebook.config.SpringConfiguration;
 import com.softserveinc.phonebook.health.DataSourceConnectionHealthCheck;
+import com.softserveinc.phonebook.kafka.consumer.ContactConsumer;
+import com.softserveinc.phonebook.kafka.producer.ContactProducer;
 import com.softserveinc.phonebook.resources.ContactResource;
 import com.softserveinc.phonebook.resources.UserResource;
 import com.softserveinc.phonebook.security.PhoneBookAuthenticator;
@@ -54,11 +56,22 @@ public class PhoneBookApplication extends Application<PhoneBookConfiguration> {
         ApplicationContextProvider.setApplicationContext(context);
 
         // Add the health checks to the environment
-        environment.healthChecks().register("database", context.getBean(DataSourceConnectionHealthCheck.class));
+        environment.healthChecks().register("databaseHealthCheck",
+                context.getBean(DataSourceConnectionHealthCheck.class));
 
         // Add the resources to the environment
         environment.jersey().register(context.getBean(ContactResource.class));
         environment.jersey().register(context.getBean(UserResource.class));
+
+        // start Contact producer
+        Thread producerThread = new Thread(context.getBean(ContactProducer.class));
+        producerThread.setDaemon(true);
+        producerThread.start();
+
+        // start Contact consumer
+        Thread consumerThread = new Thread(context.getBean(ContactConsumer.class));
+        consumerThread.setDaemon(true);
+        consumerThread.start();
 
         // Add security
         environment.jersey()

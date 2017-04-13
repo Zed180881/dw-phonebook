@@ -14,3 +14,15 @@ database:
   url: jdbc:postgresql://10.128.130.140:5432/postgres
   user: postgres
   password: pjotr2005
+kafkaTopic: test
+producerProperties:
+  bootstrap.servers: 10.128.130.140:9092
+  key.serializer: org.apache.kafka.common.serialization.StringSerializer
+  value.serializer: org.apache.kafka.common.serialization.StringSerializer
+consumerProperties:
+  bootstrap.servers: 10.128.130.140:9092
+  group.id: test
+  enable.auto.commit: 'true'
+  auto.commit.interval.ms: '1000'
+  key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
