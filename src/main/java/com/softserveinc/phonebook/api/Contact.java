@@ -1,10 +1,14 @@
 
 package com.softserveinc.phonebook.api;
 
+import java.io.Serializable;
+
 import com.softserveinc.phonebook.validator.Validate;
 
 @Validate
-public class Contact {
+public class Contact implements Serializable {
+
+    private static final long serialVersionUID = -4228903307335783500L;
 
     private int id;
 
