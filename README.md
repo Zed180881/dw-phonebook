@@ -17,3 +17,4 @@ To see your applications API docs enter url `http://localhost:9000/apidocs/`
 
 To create Docker image run command: `docker build -t dw-spring .`
 To run Docker image run command: `docker run -p 9000:9000 dw-spring`
+To run Docker image with Zookeeper and Kafka servers run command: `docker-compose -f docker-compose-single-broker-with-contact-app.yml up`

@@ -58,6 +58,9 @@ public class ContactAuditResource {
     @GET
     public Response getContactAuditEventList() {
         List<ContactAuditEvent> contactAuditEvents = contactAuditEventService.getAllContactAuditEvents();
+        if (contactAuditEvents.isEmpty()) {
+            return Response.noContent().build();
+        }
         return Response.ok(contactAuditEvents).build();
     }
 }

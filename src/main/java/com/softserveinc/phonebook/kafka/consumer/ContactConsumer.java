@@ -3,8 +3,6 @@ package com.softserveinc.phonebook.kafka.consumer;
 
 import java.util.Arrays;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,14 +35,11 @@ public class ContactConsumer implements Runnable {
     public void run() {
         kafkaConsumer.subscribe(Arrays.asList(configuration.getKafkaTopic()));
         while (true) {
-            ConsumerRecords<String, byte[]> records = kafkaConsumer.poll(1000);
-            for (ConsumerRecord<String, byte[]> record : records) {
-                try {
-                    Contact contact = (Contact) SerializationUtils.deserialize(record.value());
-                    contactService.createContact(USERNAME, contact);
-                } catch (Exception e) {
-                    throw new ConsumerException(e);
-                }
+            try {
+                kafkaConsumer.poll(1000).forEach(e -> contactService.createContact(USERNAME,
+                        (Contact) SerializationUtils.deserialize(e.value())));
+            } catch (Exception e) {
+                throw new ConsumerException(e);
             }
 
         }

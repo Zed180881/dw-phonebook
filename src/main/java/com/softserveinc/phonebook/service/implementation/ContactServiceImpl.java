@@ -39,7 +39,8 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public void updateContact(String username, Contact contact) {
-        contactAuditEventService.createContactAuditEvent(username, contact, AuditEventType.UPDATE);
+        contactAuditEventService.createContactAuditEvent(username, getContactById(contact.getId()),
+                AuditEventType.UPDATE);
         contactDAO.updateContact(contact);
     }
 
