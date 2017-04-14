@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.softserveinc.phonebook.api.Contact;
@@ -31,9 +33,11 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public int createContact(Contact contact) {
         BeanPropertySqlParameterSource namedParameters = new BeanPropertySqlParameterSource(contact);
-        return namedParameterJdbcTemplate.update(
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(
                 "INSERT INTO contacts (firstname, lastname, phone) VALUES (:firstName, :lastName, :phone)",
-                namedParameters);
+                namedParameters, keyHolder, new String[] { "id" });
+        return keyHolder.getKey().intValue();
     }
 
     @Override

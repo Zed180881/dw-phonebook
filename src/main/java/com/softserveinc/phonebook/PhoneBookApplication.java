@@ -14,6 +14,7 @@ import com.softserveinc.phonebook.config.SpringConfiguration;
 import com.softserveinc.phonebook.health.DataSourceConnectionHealthCheck;
 import com.softserveinc.phonebook.kafka.consumer.ContactConsumer;
 import com.softserveinc.phonebook.kafka.producer.ContactProducer;
+import com.softserveinc.phonebook.resources.ContactAuditResource;
 import com.softserveinc.phonebook.resources.ContactResource;
 import com.softserveinc.phonebook.resources.UserResource;
 import com.softserveinc.phonebook.security.PhoneBookAuthenticator;
@@ -62,16 +63,19 @@ public class PhoneBookApplication extends Application<PhoneBookConfiguration> {
         // Add the resources to the environment
         environment.jersey().register(context.getBean(ContactResource.class));
         environment.jersey().register(context.getBean(UserResource.class));
+        environment.jersey().register(context.getBean(ContactAuditResource.class));
 
-        // start Contact producer
-        Thread producerThread = new Thread(context.getBean(ContactProducer.class));
-        producerThread.setDaemon(true);
-        producerThread.start();
+        if (configuration.isTestKafka()) {
+            // start Contact producer
+            Thread producerThread = new Thread(context.getBean(ContactProducer.class));
+            producerThread.setDaemon(true);
+            producerThread.start();
 
-        // start Contact consumer
-        Thread consumerThread = new Thread(context.getBean(ContactConsumer.class));
-        consumerThread.setDaemon(true);
-        consumerThread.start();
+            // start Contact consumer
+            Thread consumerThread = new Thread(context.getBean(ContactConsumer.class));
+            consumerThread.setDaemon(true);
+            consumerThread.start();
+        }
 
         // Add security
         environment.jersey()

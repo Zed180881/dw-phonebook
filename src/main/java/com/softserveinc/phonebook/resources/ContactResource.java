@@ -15,8 +15,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class ContactResource {
 
     @Autowired
     private ContactService contactService;
+
+    @Context
+    private SecurityContext securityContext;
 
     @GET
     @Path("/{id}")
@@ -66,14 +71,14 @@ public class ContactResource {
 
     @POST
     public Response createContact(@Valid Contact contact) throws URISyntaxException {
-        int newContactId = contactService.createContact(contact);
+        int newContactId = contactService.createContact(securityContext.getUserPrincipal().getName(), contact);
         return Response.created(new URI(String.valueOf(newContactId))).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteContact(@PathParam("id") int id) {
-        contactService.deleteContact(id);
+        contactService.deleteContact(securityContext.getUserPrincipal().getName(), id);
         return Response.noContent().build();
     }
 
@@ -81,7 +86,7 @@ public class ContactResource {
     @Path("/{id}")
     public Response updateContact(@PathParam("id") int id, @Valid Contact contact) {
         contact.setId(id);
-        contactService.updateContact(contact);
+        contactService.updateContact(securityContext.getUserPrincipal().getName(), contact);
         return Response.ok(contact).build();
     }
 

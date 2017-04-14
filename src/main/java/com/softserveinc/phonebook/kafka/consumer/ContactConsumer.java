@@ -12,10 +12,13 @@ import org.springframework.util.SerializationUtils;
 
 import com.softserveinc.phonebook.PhoneBookConfiguration;
 import com.softserveinc.phonebook.api.Contact;
+import com.softserveinc.phonebook.exceptions.ConsumerException;
 import com.softserveinc.phonebook.service.ContactService;
 
 @Component
 public class ContactConsumer implements Runnable {
+
+    private static final String USERNAME = "BadRobot";
 
     private KafkaConsumer<String, byte[]> kafkaConsumer;
 
@@ -38,7 +41,7 @@ public class ContactConsumer implements Runnable {
             for (ConsumerRecord<String, byte[]> record : records) {
                 try {
                     Contact contact = (Contact) SerializationUtils.deserialize(record.value());
-                    contactService.createContact(contact);
+                    contactService.createContact(USERNAME, contact);
                 } catch (Exception e) {
                     throw new ConsumerException(e);
                 }

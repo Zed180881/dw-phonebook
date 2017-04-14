@@ -12,6 +12,7 @@ import org.springframework.util.SerializationUtils;
 
 import com.softserveinc.phonebook.PhoneBookConfiguration;
 import com.softserveinc.phonebook.api.Contact;
+import com.softserveinc.phonebook.exceptions.ProducerException;
 
 @Component
 public class ContactProducer implements Runnable {

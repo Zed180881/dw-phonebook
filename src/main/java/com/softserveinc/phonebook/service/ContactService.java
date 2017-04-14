@@ -9,11 +9,11 @@ public interface ContactService {
 
     Contact getContactById(int id);
 
-    int createContact(Contact contact);
+    int createContact(String username, Contact contact);
 
-    void updateContact(Contact contact);
+    void updateContact(String username, Contact contact);
 
-    void deleteContact(int id);
+    void deleteContact(String username, int id);
 
     List<Contact> getAllContacts();
 

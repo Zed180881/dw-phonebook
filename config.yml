@@ -14,6 +14,7 @@ database:
   url: jdbc:postgresql://10.128.130.140:5432/postgres
   user: postgres
   password: pjotr2005
+testKafka: 'false'
 kafkaTopic: test
 producerProperties:
   bootstrap.servers: 10.128.130.140:9092

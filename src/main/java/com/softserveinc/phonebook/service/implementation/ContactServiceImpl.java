@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserveinc.phonebook.api.Contact;
+import com.softserveinc.phonebook.dao.AuditEventType;
 import com.softserveinc.phonebook.dao.ContactDAO;
+import com.softserveinc.phonebook.service.ContactAuditEventService;
 import com.softserveinc.phonebook.service.ContactService;
 
 @Service("contactService")
@@ -18,6 +20,9 @@ public class ContactServiceImpl implements ContactService {
     @Autowired
     private ContactDAO contactDAO;
 
+    @Autowired
+    private ContactAuditEventService contactAuditEventService;
+
     @Override
     @Transactional(readOnly = true)
     public Contact getContactById(int id) {
@@ -25,17 +30,22 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public int createContact(Contact contact) {
-        return contactDAO.createContact(contact);
+    public int createContact(String username, Contact contact) {
+        int newContactID = contactDAO.createContact(contact);
+        contact.setId(newContactID);
+        contactAuditEventService.createContactAuditEvent(username, contact, AuditEventType.CREATE);
+        return newContactID;
     }
 
     @Override
-    public void updateContact(Contact contact) {
+    public void updateContact(String username, Contact contact) {
+        contactAuditEventService.createContactAuditEvent(username, contact, AuditEventType.UPDATE);
         contactDAO.updateContact(contact);
     }
 
     @Override
-    public void deleteContact(int id) {
+    public void deleteContact(String username, int id) {
+        contactAuditEventService.createContactAuditEvent(username, getContactById(id), AuditEventType.DELETE);
         contactDAO.deleteContact(id);
     }
 

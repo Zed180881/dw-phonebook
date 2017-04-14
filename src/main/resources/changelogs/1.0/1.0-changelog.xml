@@ -10,13 +10,16 @@
 	<changeSet id="db-users-init" author="pzel">
 		<sqlFile path="users-init.sql" relativeToChangelogFile="true" />
 	</changeSet>
-	<!-- delete before production -->
 	<changeSet id="test-user-insert" author="pzel">
 		<sqlFile path="db-users-insert-test-users.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
 	<changeSet id="test-contact-insert" author="pzel">
 		<sqlFile path="db-contacts-insert-test-contacts.sql"
+			relativeToChangelogFile="true" />
+	</changeSet>
+	<changeSet id="db-contacts-audit-init" author="pzel">
+		<sqlFile path="contacts-audit-init.sql"
 			relativeToChangelogFile="true" />
 	</changeSet>
 	<!-- delete before production -->
