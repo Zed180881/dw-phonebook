@@ -19,10 +19,14 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<dropwizard.version>1.1.0</dropwizard.version>
 		<org.springframework.version>4.3.7.RELEASE</org.springframework.version>
+		<org.springsecurity.version>4.2.2.RELEASE</org.springsecurity.version>
+		<postgreeSQLconnector.version>42.0.0</postgreeSQLconnector.version>
+		<kafka-clients.version>0.10.2.0</kafka-clients.version>
 		<mainClass>com.softserveinc.phonebook.PhoneBookApplication</mainClass>
 	</properties>
 
 	<dependencies>
+		<!-- dropwizard dependencies -->
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
@@ -48,11 +52,13 @@
 			<artifactId>dropwizard-assets</artifactId>
 			<version>${dropwizard.version}</version>
 		</dependency>
+		<!-- db dependencies -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.0.0</version>
+			<version>${postgreeSQLconnector.version}</version>
 		</dependency>
+		<!-- spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
@@ -76,13 +82,13 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>4.2.2.RELEASE</version>
+			<version>${org.springsecurity.version}</version>
 		</dependency>
-
+		<!-- kafka dependencies -->
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-clients</artifactId>
-			<version>0.10.2.0</version>
+			<version>${kafka-clients.version}</version>
 		</dependency>
 
 	</dependencies>
